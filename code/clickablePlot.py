@@ -7,7 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D;
 xList = [];
 yList = [];
 
-SET = 0;
+SET = 1;
 
 def onclick(event):
     button=event.button
@@ -111,8 +111,13 @@ if SET == 1:
 	print "Polynomial 2: "
 	r, s, t = computeRegression(e, f, g, h);
 	
+	print "Lower and upper bound: "
+	print np.sqrt(p * s)[-1];
+	print np.sqrt(p * s)[0];
+
+	
 	scale = np.sqrt((p[-1]-p[0]) * (s[-1] - s[0]))/1001.;
-	total_volume = (q - t)**2;		
+	total_volume = (q - t)**2	
 	
 	coord = np.array([np.linspace(np.sqrt(p[0]*s[0]),np.sqrt(s[-1]*p[-1]), 1001), q, np.zeros(1001)]);
 	coord2= np.array([np.linspace(np.sqrt(p[0]*s[0]),np.sqrt(s[-1]*p[-1]), 1001), t, np.zeros(1001)]);
