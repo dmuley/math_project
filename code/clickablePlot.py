@@ -1,13 +1,13 @@
 import numpy as np;
 from scipy.interpolate import splrep;
-from scipy.stats import linregress;
+from scipy.stats import linregress, chisquare;
 import matplotlib.pyplot as plt;
 from mpl_toolkits.mplot3d import Axes3D;
 
 xList = [];
 yList = [];
 
-SET = 1;
+SET = 0;
 
 def onclick(event):
     button=event.button
@@ -51,8 +51,11 @@ def computeRegression(x, y, xl, yl):
 	m = np.polyval(h - h2, x1);
 	m2 = np.polyval(h - h2, x);
 	
+	X_2 = chisquare(y, m2)[1];
+	
 	print h - h2;
 	print h2;
+	print X_2;
 	
 	plt.plot(x1, -m);
 	plt.plot(x, -y + np.polyval(h2, x),".");
@@ -85,7 +88,7 @@ if SET == 0:
 	fig = plt.figure();
 	ax = fig.add_subplot(111, projection='3d');
 	
-	for n in np.linspace(0,np.pi * 2,100):
+	for n in np.linspace(0,np.pi * 2,250):
 		coord5 = np.array([np.linspace(np.sqrt(p[0]*s[0]),np.sqrt(s[-1]*p[-1]), 1001), q * np.sin(n), t * np.cos(n)]);	
 		ax.plot(xs=coord5[0], ys=coord5[1], zs=coord5[2]);
 		
@@ -127,7 +130,7 @@ if SET == 1:
 	fig = plt.figure();
 	ax = fig.add_subplot(111, projection='3d');
 	
-	for n in np.linspace(0,np.pi * 2,100):
+	for n in np.linspace(0,np.pi * 2,250):
 		coord5 = np.array([np.linspace(np.sqrt(p[0]*s[0]),np.sqrt(s[-1]*p[-1]), 1001), (q + t)/2 + np.sin(n) * (q - t)/2, np.cos(n) * (q - t)/2]);	
 		ax.plot(xs=coord5[0], ys=coord5[1], zs=coord5[2]);
 		
@@ -135,6 +138,8 @@ if SET == 1:
 	ax.plot(xs=coord2[0], ys=coord2[1], zs=coord2[2]);
 	ax.plot(xs=coord3[0], ys=coord3[1], zs=coord3[2]);
 	ax.plot(xs=coord4[0], ys=coord4[1], zs=coord4[2]);
+	
+	fig.show()
 			
 	total_volume *= scale / 25.1953**3 / 4.;
 	vol = np.sum(total_volume) * np.pi * 2.54**3;
